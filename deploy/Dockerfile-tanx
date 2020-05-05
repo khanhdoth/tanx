@@ -1,5 +1,6 @@
 FROM tanx-builder-base
 WORKDIR /opt/app
+ENV MIX_ENV=prod
 COPY . .
 RUN mv /opt/base-app/_build _build \
     && mv /opt/base-app/deps deps \
@@ -9,7 +10,9 @@ RUN mv /opt/base-app/_build _build \
     && node_modules/webpack/bin/webpack.js --mode production \
     && cd .. \
     && mix phx.digest
-RUN mix release --env=prod --verbose \
+
+# RUN mix release --env=prod --verbose \
+RUN mix release \
     && mv _build/prod/rel/tanx /opt/release \
     && mv /opt/release/bin/tanx /opt/release/bin/start_server
 
